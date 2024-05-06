@@ -1,11 +1,14 @@
 package com.example.message.test.serviceImpl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.message.test.dto.MessageDto;
 import com.example.message.test.model.Conversation;
 import com.example.message.test.model.Message;
 import com.example.message.test.repository.ConversationRepo;
@@ -41,4 +44,36 @@ public class MessageServiceImpl implements MessageService {
 		return "Export Done";
 	}
 
+	@Override
+	public List<Message> findAllMessage() {
+		return messageRepo.findAll();
+	}
+
+	@Override
+	public Message addMessage(MessageDto messageDto) {
+		Message message = new Message();
+		message.setMessageText(messageDto.getMessageText());
+		message.setParticipantId(messageDto.getParticipantId());
+		message.setConversationId(messageDto.getConversationId());
+		message.setCreateAt(new Date());
+		return messageRepo.save(message);
+	}
+
+	@Override
+	public Message updateMessage(Long id, MessageDto messageDto) {
+		Optional<Message> message = messageRepo.findById(id);
+		if (message.isPresent()) {
+			message.get().setMessageText(messageDto.getMessageText());
+			message.get().setParticipantId(messageDto.getParticipantId());
+			message.get().setConversationId(messageDto.getConversationId());
+			return messageRepo.save(message.get());
+		}
+		return null;
+	}
+
+	@Override
+	public String deleteMessage(Long id) {
+		messageRepo.deleteById(id);
+		return "Delete Done";
+	}
 }

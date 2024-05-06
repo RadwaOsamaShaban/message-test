@@ -67,7 +67,7 @@ public class ExportMessagesReportUtil {
                  Drawing<?> drawing = sheet.createDrawingPatriarch();
                  ClientAnchor anchor = helper.createClientAnchor();
                  anchor.setCol1(0);
-                 anchor.setRow1(3);
+                 anchor.setRow1(10);
                  Picture picture = drawing.createPicture(anchor, pictureIdx);
                  picture.resize();
                  // Write the Excel file
